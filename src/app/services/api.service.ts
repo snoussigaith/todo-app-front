@@ -66,7 +66,8 @@ export class ApiService {
       // @ts-ignore
       catchError((err: HttpErrorResponse) => {
         this.toast.error(err.error.message, '', {
-          timeOut: 1000
+          timeOut: 1000,
+          positionClass: 'toast-top-center'
         });
       })
     );
