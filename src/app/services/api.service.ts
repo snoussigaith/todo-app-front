@@ -41,8 +41,8 @@ export class ApiService {
   login(username: string, password: string) {
 
     this.http.post(`${this.API_URL}/auth/login`, {username, password})
-      // @ts-ignore
-      .subscribe((res: { token: string }) => {
+     
+      .subscribe((res: any) => {
         this.token = res.token;
 
         if (this.token) {
@@ -55,10 +55,14 @@ export class ApiService {
             this.router.navigateByUrl('/').then();
           });
         }
-      }, (err: HttpErrorResponse) => console.log(err.message));
+      }, (err: HttpErrorResponse) => {
+        this.toast.error('Authentication failed, try again', '', {
+          timeOut: 1000
+        });
+      });
   }
 
-  // tslint:disable-next-line:typedef
+
   logout() {
     this.token = '';
     this.jwtToken$.next(this.token);
@@ -71,7 +75,7 @@ export class ApiService {
     return '';
   }
 
-  // tslint:disable-next-line:typedef
+  
   createTodo(title: string, description: string) {
     return this.http.post(`${this.API_URL}/todos`, {title, description}, {
       headers: {
